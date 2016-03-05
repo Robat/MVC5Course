@@ -8,8 +8,11 @@ namespace MVC5Course.Controllers
 {
     public class HomeController : Controller
     {
+        
+        // TODO: Net yet ready
         public ActionResult Index()
         {
+            
             return View();
         }
 
