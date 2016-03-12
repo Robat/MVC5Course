@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
 using System.Data.Entity.Validation;
-
+using System.Data.Entity;
 namespace MVC5Course.Controllers
 {
     public class EFController : Controller
@@ -86,6 +86,13 @@ namespace MVC5Course.Controllers
 
             SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult QueryPlan()
+        {
+            var data = db.Product.Include("OrderLine");
+             
+            return View(data);
         }
     }
 }
