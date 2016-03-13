@@ -190,10 +190,15 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EFController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IMemberController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MBController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\NewLayoutController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="ActionFilter\紀錄Action的執行時間Attribute.cs" />
+    <Compile Include="ActionFilter\共用的ViewBag資料共享於部分HomeController動作方法Attribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -302,13 +307,22 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="calendar.html" />
+    <Content Include="chart.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\nba.png" />
     <Content Include="favicon.ico" />
+    <Content Include="file-manager.html" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="form.html" />
+    <Content Include="gallery.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="icon.html" />
+    <Content Include="index.html" />
+    <Content Include="login.html" />
+    <Content Include="messages.html" />
     <Content Include="Models\EFGeneratePartialClass.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EFGeneratePartialClass.cs</LastGenOutput>
@@ -354,6 +368,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="widgets.html" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -373,6 +388,7 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="README.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -1129,6 +1145,13 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="submenu.html" />
+    <Content Include="submenu2.html" />
+    <Content Include="submenu3.html" />
+    <Content Include="table.html" />
+    <Content Include="tasks.html" />
+    <Content Include="typography.html" />
+    <Content Include="ui.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1178,9 +1201,17 @@
     <Content Include="Views\AR\Index.cshtml" />
     <Content Include="Views\MB\Index.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Member\Login.cshtml" />
+    <Content Include="Views\Home\RazorTest.cshtml" />
+    <Content Include="Views\NewLayout\Index.cshtml" />
+    <Content Include="Views\NewLayout\_LayoutBootstrap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="css\" />
+    <Folder Include="font\" />
+    <Folder Include="img\" />
+    <Folder Include="js\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

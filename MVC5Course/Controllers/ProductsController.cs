@@ -24,6 +24,7 @@ namespace MVC5Course.Controllers
             return View(data);
         }
         [HttpPost]
+        [紀錄Action的執行時間]
         public ActionResult Index(IList<Products批次更新ViewModel> data)
         {
             if (ModelState.IsValid)
