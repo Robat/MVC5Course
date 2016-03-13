@@ -29,5 +29,7 @@ namespace MVC5Course.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<MVC5Course.Models.MemberViewModel> MemberViewModels { get; set; }
     }
 }

@@ -10,18 +10,34 @@ using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
         //private FabricsEntities db = new FabricsEntities();
-        ProductRepository repo = RepositoryHelper.GetProductRepository();
+        //ProductRepository repo = RepositoryHelper.GetProductRepository();
         // GET: Products
         public ActionResult Index()
         {
-            var data = repo.All();
+            var data = repo.All().Take(5);
 
             //return View(db.Product.ToList());
             //return View(db.Product.Where(p => !p.isDeleted).ToList());
             return View(data);
+        }
+        [HttpPost]
+        public ActionResult Index(IList<Products批次更新ViewModel> data)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in data)
+                {
+                    var product = repo.Find(item.ProductId);
+                    product.Stock = item.Stock;
+                    product.Price = item.Price;
+                }
+                repo.UnitOfWork.Commit();
+                return RedirectToAction("Index");
+            }
+            return View(repo.All().Take(5));
         }
 
         // GET: Products/Details/5
@@ -85,15 +101,41 @@ namespace MVC5Course.Controllers
         // POST: Products/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
+        //{
+        //    //預先驗證 接甚麼資料就傳什麼資料
+        //    if (ModelState.IsValid)
+        //    {
+        //        var db = (FabricsEntities)repo.UnitOfWork.Context;
+        //        db.Entry(product).State = EntityState.Modified;
+        //        db.SaveChanges();
+
+        //        // 利用TempData 暫存資料
+        //        TempData["ProductsEditDoneMsg"] = "OK";
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(product);
+        //}
+
+
+        // POST: Products/Edit/5
+        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
+        // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
+        public ActionResult Edit(int id, FormCollection form)
         {
-            if (ModelState.IsValid)
+            Product product = repo.Find(id);
+
+            if (TryUpdateModel<Product>(product, new string[] {
+                "ProductId","ProductName","Price","Active","Stock" }))
             {
-                var db = (FabricsEntities)repo.UnitOfWork.Context;
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.UnitOfWork.Commit();
+
+                TempData["ProductsEditDoneMsg"] = "商品編輯成功";
+
                 return RedirectToAction("Index");
             }
             return View(product);
