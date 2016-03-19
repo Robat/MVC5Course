@@ -1,0 +1,13 @@
+﻿@model bool?
+
+@if (Model.HasValue)
+{
+    if (Model.Value)
+    {
+        @:有效
+    }
+    else
+    {
+        @:無效
+    }
+}

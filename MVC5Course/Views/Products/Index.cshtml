@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MVC5Course.Models.Product>
+﻿@model IEnumerable<Product>
 
 @{
     ViewBag.Title = "Index";
@@ -6,68 +6,102 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    @if (!String.IsNullOrEmpty(Convert.ToString(TempData["ProductsEditDoneMsg"])))
-    {
-        <h3>@TempData["ProductsEditDoneMsg"]</h3>
-    }
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+
+        @Html.DropDownList("isActive", null, "--是否有效--", new { onchange = "this.form.submit();" })
+
+        @Html.TextBox("keyword", null, new { onchange = "this.form.submit();" })
+
+        @if (!String.IsNullOrEmpty(Convert.ToString(TempData["ProductsEditDoneMsg"])))
+        {
+            <h3>@TempData["ProductsEditDoneMsg"]</h3>
+        }
     </p>
+}
 
-    @using (Html.BeginForm())
-    {
+@using (Html.BeginForm())
+{
 
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Active)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Stock)
-                </th>
-                <th></th>
-            </tr>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th></th>
+        </tr>
+        @*
+            data[0].ProductId
+            data[0].ProductName
+            data[1].ProductId
+            data[1].ProductName
+        *@
 
-            @{
-                var data = Model.ToArray();
-            }
+        @{
+            var data = Model.ToArray();
+        }
+        @for (var i = 0; i < data.Length; i++)
+        {
+            @Html.HiddenFor(modelItem => data[i].ProductId)
 
-
-            @for (var i = 0; i < data.Length; i++)
+            if (ViewBag.SelectedProductId != null && ViewBag.SelectedProductId == data[i].ProductId)
             {
-                @Html.HiddenFor(modelItem => data[i].ProductId)
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => data[i].ProductName)
-                    </td>
-                    <td>
-                        @Html.EditorFor(modelItem => data[i].Price)
-                        @Html.ValidationMessageFor(modelItem => data[i].Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => data[i].Active)
-                    </td>
-                    <td>
-                        @Html.EditorFor(modelItem => data[i].Stock)
-                        @Html.ValidationMessageFor(modelItem => data[i].Stock)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = data[i].ProductId }) |
-                        @Html.ActionLink("Details", "Details", new { id = data[i].ProductId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = data[i].ProductId })
-                    </td>
-                </tr>
+                ViewBag.SelectedProductItem = data[i];
             }
 
+            <tr @if (ViewBag.SelectedProductId != null && ViewBag.SelectedProductId == data[i].ProductId) { @Html.Raw("style='background-color: lightyellow;'")  }>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].ProductName)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].Price)<br />
+                    @Html.ValidationMessageFor(modelItem => data[i].Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].Active)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].Stock)<br />
+                    @Html.ValidationMessageFor(modelItem => data[i].Stock)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = data[i].ProductId }) |
+                    @Html.ActionLink("Details", "Index", new { type = "Details", ProductId = data[i].ProductId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = data[i].ProductId }) |
+                    @Html.ActionLink("OrderLines", "Index", new { type = "OrderLines", ProductId = data[i].ProductId })
+                </td>
+            </tr>
+        }
 
+    </table>
 
-        </table>
+    <button class="btn btn-primary">批次更新</button>
+            }
 
-        <button class="btn btn-primary">批次更新</button>
-                }
+<hr />
+
+@if (ViewBag.SelectedProductId != null)
+{
+    if (ViewBag.type == "Details")
+    {
+        if (ViewData["SelectedProductItem"] != null)
+        {
+            @Html.Partial("Details", ViewData["SelectedProductItem"])
+        }
+    }
+    else
+    {
+        @Html.Action("Index", "OrderLines", new { ProductId = ViewBag.SelectedProductId })
+    }
+}

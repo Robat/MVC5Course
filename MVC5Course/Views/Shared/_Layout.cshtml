@@ -28,13 +28,18 @@
                     <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Test", "Test", "Home")</li>
                     <li>@Html.ActionLink("產品資料管理", "Index", "Products")</li>
+                    <li>@Html.ActionLink("客戶管理", "Index", "Clients")</li>
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+
+        <div id="main">
+            @RenderBody()
+        </div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
@@ -42,6 +47,7 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
